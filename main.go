@@ -3,6 +3,7 @@ package main
 import (
 	"bytes"
 	"crypto/sha256"
+	"fmt"
 )
 
 type BlockChain struct {
@@ -32,6 +33,23 @@ func (chain *BlockChain) AddBlock(data string) {
 	chain.blocks = append(chain.blocks, new)
 }
 
-func main() {
+func Genesis() *Block {
+	return CreateBlock("Genesis", []byte{})
+}
 
+func InitBlockChain() *BlockChain {
+	return &BlockChain{[]*Block{Genesis()}}
+}
+
+func main() {
+	chain := InitBlockChain()
+	chain.AddBlock("First block")
+	chain.AddBlock("Second block")
+	chain.AddBlock("Third block")
+
+	for _, block := range chain.blocks {
+		fmt.Printf("Previous Hash: %x\n", block.PrevHash)
+		fmt.Printf("Data in block: %s\n", block.Data)
+		fmt.Printf("Hash: %x\n", block.Hash)
+	}
 }
