@@ -18,6 +18,7 @@ func (b *Block) DeriveHash() {
 	info := bytes.Join([][]byte{b.Data, b.PrevHash}, []byte{})
 	hash := sha256.Sum256(info)
 	b.Hash = hash[:]
+	NewProof(b)
 }
 
 func CreateBlock(data string, prevHash []byte) *Block {
